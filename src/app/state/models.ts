@@ -26,7 +26,7 @@ export interface RecipeIngredient {
 }
 
 /**
- * Represents a drink in the application.
+ * Represents a drink.
  *
  * @interface Drink
  * @property {string} id - The unique identifier for the drink.
@@ -37,4 +37,14 @@ export interface Drink {
   id: string;
   name: string;
   recipe: RecipeIngredient[];
+}
+
+/**
+ * Represents a drink with its price.
+ *
+ * @interface DrinkWithPrice
+ * @property {number} price - The calculated price of the drink.
+ */
+export interface DrinkWithPrice extends Drink {
+    price: number;
 }

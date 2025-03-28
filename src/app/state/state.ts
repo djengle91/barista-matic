@@ -88,11 +88,23 @@ export class StateService {
     }));
   });
 
+  isDrinkAvailable(drinkId: string) {
+    const drink = this.drinks().find((d) => d.id === drinkId);
+    if (!drink) return false;
+
+    return drink.recipe.every((recipeItem) => {
+      const ingredient = this.ingredients().find(
+        (i) => i.id === recipeItem.ingredientId
+      );
+      return ingredient && ingredient.inventory >= recipeItem.amount;
+    });
+  }
+
   dispenseDrink(drinkId: string) {
     const drink = this.drinks().find((d) => d.id === drinkId);
     if (!drink) return;
 
-    this.dispensing.set(drinkId);
+    this.dispensing.set(drink.name);
 
     this.ingredients.update((currentIngredients) => {
       return currentIngredients.map((ingredient) => {
@@ -111,7 +123,7 @@ export class StateService {
 
     setTimeout(() => {
       this.dispensing.set('');
-    }, 5000);
+    }, 3000);
   }
 
   restockInventory() {
