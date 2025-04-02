@@ -127,6 +127,11 @@
   ));
 }
 
+.mat-mdc-unelevated-button
+.mat-mdc-button-persistent-ripple::before {
+  background-color: var(--mat-sys-on-primary-container) !important;
+
+}
 
 body {
   margin: 0;
