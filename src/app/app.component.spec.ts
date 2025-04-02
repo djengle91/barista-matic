@@ -44,7 +44,7 @@ describe('AppComponent', () => {
   });
 
   it('should render drink cards based on state service data', () => {
-    const mockDrinks = component.state.getDrinksWithPrices();
+    const mockDrinks = component.getDrinksWithPrices();
     const compiled = fixture.nativeElement;
     const drinkCards = compiled.querySelectorAll('.drink-card');
 
@@ -53,9 +53,9 @@ describe('AppComponent', () => {
 
   it('should apply unavailable class to drinks that are not available', () => {
     // We need to spy on the isDrinkAvailable method
-    spyOn(component.state, 'isDrinkAvailable').and.callFake((id: string) => {
+    spyOn(component, 'isDrinkAvailable').and.callFake((id: string) => {
       // Mock that the first drink is available and others are not
-      return id === component.state.getDrinksWithPrices()[0].id;
+      return id === component.getDrinksWithPrices()[0].id;
     });
 
     fixture.detectChanges();
@@ -70,9 +70,9 @@ describe('AppComponent', () => {
 
   it('should disable order button for unavailable drinks', () => {
     // We need to spy on the isDrinkAvailable method
-    spyOn(component.state, 'isDrinkAvailable').and.callFake((id: string) => {
+    spyOn(component, 'isDrinkAvailable').and.callFake((id: string) => {
       // Mock that the first drink is available and others are not
-      return id === component.state.getDrinksWithPrices()[0].id;
+      return id === component.getDrinksWithPrices()[0].id;
     });
 
     fixture.detectChanges();
@@ -86,21 +86,21 @@ describe('AppComponent', () => {
   });
 
   it('should call dispenseDrink when order button is clicked', () => {
-    spyOn(component.state, 'dispenseDrink');
-    spyOn(component.state, 'isDrinkAvailable').and.returnValue(true);
+    spyOn(component, 'dispenseDrink');
+    spyOn(component, 'isDrinkAvailable').and.returnValue(true);
 
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
     const firstOrderButton = compiled.querySelector('.order-button');
-    const firstDrinkId = component.state.getDrinksWithPrices()[0].id;
+    const firstDrinkId = component.getDrinksWithPrices()[0].id;
 
     firstOrderButton.click();
 
-    expect(component.state.dispenseDrink).toHaveBeenCalledWith(firstDrinkId);
+    expect(component.dispenseDrink).toHaveBeenCalledWith(firstDrinkId);
   });
 
   it('should show dispensing overlay when a drink is being dispensed', () => {
-    spyOn(component.state, 'getDispensing').and.returnValue('Coffee');
+    spyOn(component, 'getDispensing').and.returnValue('Coffee');
 
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
@@ -113,7 +113,7 @@ describe('AppComponent', () => {
   });
 
   it('should show progress indicators for inventory items', () => {
-    const mockIngredients = component.state.getIngredients();
+    const mockIngredients = component.getIngredients();
     const compiled = fixture.nativeElement;
 
     const progressBars = compiled.querySelectorAll('.progress-bar');
@@ -133,13 +133,13 @@ describe('AppComponent', () => {
   });
 
   it('should call restockInventory when restock button is clicked', () => {
-    spyOn(component.state, 'restockInventory');
+    spyOn(component, 'restockInventory');
 
     const compiled = fixture.nativeElement;
     const restockButton = compiled.querySelector('.restock-button');
 
     restockButton.click();
 
-    expect(component.state.restockInventory).toHaveBeenCalled();
+    expect(component.restockInventory).toHaveBeenCalled();
   });
 });
